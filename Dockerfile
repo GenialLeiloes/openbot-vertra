@@ -8,10 +8,11 @@ FROM ${BASE}
 COPY --from=src / /
 COPY start-vertra.sh /usr/local/bin/start-vertra.sh
 RUN chmod 0755 /usr/local/bin/start-vertra.sh \
-  && mkdir -p /app/data \
+  && mkdir -p /app/data /app/data/run \
+  && chown -R 1000:1000 /app \
   && rm -rf /data \
   && ln -s /app/data /data
-ENV LANG=C.UTF-8 XDG_RUNTIME_DIR=/run/openbot
+ENV LANG=C.UTF-8 XDG_RUNTIME_DIR=/app/data/run
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/.local/bin
 USER 1000:1000
 WORKDIR /app
